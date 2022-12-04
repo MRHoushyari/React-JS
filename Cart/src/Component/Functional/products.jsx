@@ -1,35 +1,25 @@
-import { useState } from "react";
-import { Product } from "./Product";
+import { Product } from "./product";
+import { ProductsContext } from "../../context/productscontext";
+
+import { useContext } from "react";
 const Products = () => {
-  const [products, setProducts] = useState([
-    { productName: "Laptop1", count: 0, id: 1 },
-    { productName: "Laptop2", count: 0, id: 2 },
-    { productName: "Laptop3", count: 0, id: 3 },
-    { productName: "Laptop4", count: 0, id: 4 },
-  ]);
+  const context = useContext(ProductsContext);
   return (
     <>
-      {products.map((p, index) => {
+      {context.products.map((p, index) => {
         return (
-          <Product
-            id={p.id}
-            handleDelete={onDelete}
-            key={index}
-            productName={p.productName}
-            count={p.count}
-          >
-            test lorem
-          </Product>
+          <div>
+            <Product
+              name={p.productName}
+              count={p.count}
+              id={p.id}
+              key={index}
+            />
+          </div>
         );
       })}
     </>
   );
-  function onDelete(productId) {
-    const newProducts = products.filter((p) => {
-      return productId !== p.id;
-    });
-    setProducts(newProducts);
-  }
 };
 
 export { Products };

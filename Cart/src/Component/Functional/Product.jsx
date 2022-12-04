@@ -1,36 +1,46 @@
-import { useState } from "react";
+import { ProductsContext } from "../../context/productscontext";
+
+import { useContext } from "react";
 const Product = (props) => {
-  let [count, setCount] = useState(props.count);
+  const context = useContext(ProductsContext);
   return (
-    <div>
-      <h2 className="m-2 p-2">{props.productName}</h2>
-      <span className="badge bg-info m-2">{formatCount(count)}</span>
-      <button className="btn btn-success m-2" onClick={handlePluse}>
+    <>
+      <h1 className="m-4">{props.name}</h1>
+      <span className="badge bg-info m-4">{props.count}</span>
+      <span className="btn btn-success m-4" onClick={handlePluse}>
         +
-      </button>
-      <button className="btn btn-warning m-2" onClick={handleMinus}>
+      </span>
+      <span className="btn btn-warning m-4" onClick={handleMinus}>
         -
-      </button>
-      <button
-        className="btn btn-danger m-2"
-        onClick={() => {
-          props.handleDelete(props.id);
-        }}
-      >
+      </span>
+      <span className="btn btn-danger" onClick={handleDelete}>
         Delete
-      </button>
-      <p>{props.children}</p>
-    </div>
+      </span>
+    </>
   );
-  function formatCount(count) {
-    if (count === 0) return "Zero";
-    else return count;
+  function handleDelete() {
+    const newProducts = context.products.filter((p) => {
+      if (p.id !== props.id) return p;
+    });
+    context.handleStateUpdate(newProducts);
   }
   function handlePluse() {
-    setCount(count + 1);
+    const newProducts = context.products.map((p) => {
+      if (p.id === props.id) {
+        p.count += 1;
+      }
+      return p;
+    });
+    context.handleStateUpdate(newProducts);
   }
   function handleMinus() {
-    setCount(count - 1);
+    const newProducts = context.products.map((p) => {
+      if (p.id === props.id) {
+        p.count -= 1;
+      }
+      return p;
+    });
+    context.handleStateUpdate(newProducts);
   }
 };
 
