@@ -88,7 +88,8 @@ class Users extends Component {
       email: "mr.houshyari@gmail.com",
       first_name: "Mohammad Reza",
       last_name: "Houshyari",
-      avatar: "../../../../../../Desktop/PersonalPic.png",
+      // avatar: "C:\Users\Administrator\Desktop\PersonalPic.png",
+      avatar: "C:UsersAdministratorDesktoppersonalpic.png",
     };
     this.setState({ users: [...this.state.users, newUser] });
   };
