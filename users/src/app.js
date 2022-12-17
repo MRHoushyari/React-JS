@@ -15,7 +15,7 @@ class App extends Component {
           <div className="container mt-3">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/Users" element={<Users />} />
+              <Route path="/Users" element={<Users id='test' />} />
               <Route path="/Register" element={<Register />} />
               <Route path="/Login" element={<Login />} />
             </Routes>

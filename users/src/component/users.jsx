@@ -54,6 +54,7 @@ class Users extends Component {
     }, 3000);
   }
   render() {
+    console.log(this.props)
     return (
       <>
         <button className="btn btn-success m-3" onClick={this.handleAdd}>
