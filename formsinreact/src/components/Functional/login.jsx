@@ -1,11 +1,17 @@
 import { useRef } from "react";
+import axios from "axios";
 const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email.current.value);
-    console.log(password.current.value);
+    const response = await axios.post("https://reqres.in/api/login", {
+      email: email.current.value,
+      password: password.current.value,
+    });
+    console.log(response);
+    // console.log(email.current.value);
+    // console.log(password.current.value);
   };
   return (
     <>
