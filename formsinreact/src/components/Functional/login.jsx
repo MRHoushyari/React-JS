@@ -1,8 +1,9 @@
-import { useRef } from "react";
 import axios from "axios";
+import { useState } from "react";
+import Input from "./input";
 const Login = () => {
-  const email = useRef(null);
-  const password = useRef(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post("https://reqres.in/api/login", {
@@ -16,24 +17,8 @@ const Login = () => {
   return (
     <>
       <form className="m-3" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="Email">Email :</label>
-          <input
-            className="form-control"
-            type="text"
-            id="Email"
-            ref={email}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="password">Password :</label>
-          <input
-            className="form-control"
-            type="text"
-            id="password"
-            ref={password}
-          ></input>
-        </div>
+        <Input name="email" label="Email :" />
+        <Input name="password" label="Password :" />
         <button className="btn btn-primary mt-3">Login</button>
       </form>
     </>
