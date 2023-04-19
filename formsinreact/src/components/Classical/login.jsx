@@ -1,39 +1,82 @@
 import { Component } from "react";
-import axios from "axios";
-import Input from "../Functional/input";
+// import Input from "../Functional/input";
+import * as Yup from "yup";
 class Login extends Component {
-  state = { account: { email: "", password: "" } };
+  ////////////////////////////////////////////////////////////        state     ///////////////////////////
+  state = { account: { email: "", password: "" }, errors: [] };
+
+  ////////////////////////////////////////////////////////////        schema     ///////////////////////////
+  schema = Yup.object().shape({
+    email: Yup.string()
+      .required("وارد کردن ایمیل ضروری میباشد!")
+      .email("آدرس ایمیل معتبر نمی باشد!"),
+    password: Yup.string()
+      .required("وارد کردن پسوورد ضروری میباشد!")
+      .min(4, "پسوورد باید حداقل 4 کارکتر باشد!"),
+  });
+
+  ////////////////////////////////////////////////////////////        validate     ///////////////////////////
+  validate = async () => {
+    try {
+      const result = await this.schema.validate(this.state.account, {
+        abortEarly: false,
+      });
+      this.setState({ errors: [] });
+      return result;
+    } catch (error) {
+      this.setState({ errors: error.errors });
+    }
+  };
+
+  ////////////////////////////////////////////////////////////        handleChange     ///////////////////////////
   handleChange = (e) => {
     const input = e.target;
     const account = { ...this.state.account };
     account[input.name] = input.value;
     this.setState({ account });
-    // this.setState({account[]:e.target.value});
-    // console.log(e.target.value);
-    // console.log(e.target.name);
-    // this.state.account[e.]
-    // console.log(e.nativeEvent.data);
+    console.log(e.target.value);
   };
 
+  ///////////////////////////////////////////////////////////        handleSubmit     ///////////////////////////
   handleSubmit = async (e) => {
     e.preventDefault();
-    if (this.email.current.value && this.password.current.value) {
-      console.log(this.email.current.value);
-      const response = await axios.post("https://reqres.in/api/login", {
-        email: "eve.holt@reqres.in",
-        password: "cityslicka",
-      });
-      console.log(response);
-    } else {
-      console.log("empty");
-    }
+    console.log(this.state.account);
+    const result = await this.validate();
+    console.log(result);
   };
+
+  ///////////////////////////////////////////////////////////        render     ///////////////////////////
   render() {
     return (
       <>
+        {this.state.errors.length !== 0 && (
+          <div className="alert alert-danger">
+            <ul>
+              {this.state.errors.map((e, i) => (
+                <li key={i}>{e}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <form className="m-3" onSubmit={this.handleSubmit}>
-          <Input name="email" label="Email :" />
-          <Input name="password" label="Password :" />
+          <label htmlFor={"email"}>Email :</label>
+          <input
+            name={"email"}
+            className="form-control"
+            type="text"
+            id={"email"}
+            onChange={this.handleChange}
+          ></input>
+          <div>
+            <label htmlFor={"password"}>Password :</label>
+            <input
+              name={"password"}
+              className="form-control"
+              type="text"
+              id={"password"}
+              onChange={this.handleChange}
+            ></input>
+          </div>
           <button className="btn btn-primary mt-3">Login</button>
         </form>
       </>
